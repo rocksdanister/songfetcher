@@ -65,11 +65,6 @@ namespace SongIdentify_Winform
                             {
                                 UpdateLabel_T(item.Process.MainWindowTitle.Substring(0, item.Process.MainWindowTitle.Length - 19));
                             }
-
-                            else if (item.Process.ProcessName.Equals("nvcontainer", StringComparison.InvariantCultureIgnoreCase)) // nvidia gfe screen recording.
-                            {
-                                sessionCnt -= 1;
-                            }
                             else if (item.Process.ProcessName.Equals("chrome", StringComparison.InvariantCultureIgnoreCase))
                             {
                                 // won't update if video changes & different tab open on browser.
@@ -83,8 +78,13 @@ namespace SongIdentify_Winform
                                 StaticPinvoke.GetWindowThreadProcessId(hWnd, out processID);
                                 currProcess = Process.GetProcessById(processID);
 
+                                // won't update if video changes & different tab open on browser.
                                 if (currProcess.MainWindowTitle.Contains(" - YouTube - Mozilla Firefox"))
                                     UpdateLabel_T(currProcess.MainWindowTitle.Substring(0, currProcess.MainWindowTitle.Length - 28));
+                            }
+                            else if (item.Process.ProcessName.Equals("nvcontainer", StringComparison.InvariantCultureIgnoreCase)) // nvidia gfe screen recording.
+                            {
+                                sessionCnt -= 1;
                             }
                             else
                             {
@@ -125,7 +125,11 @@ namespace SongIdentify_Winform
                 
             }
         }
-               
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }
